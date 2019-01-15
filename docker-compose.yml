@@ -1,0 +1,32 @@
+version: "3.2"
+services:
+  platform:
+    image: open1904/gseabra
+    container_name: gseabra
+    environment:
+      - MONGODB_URI=mongodb://seabrus:dissertation@mongo:27017/test?authSource=admin
+    ports:
+      - 80:8080
+    depends_on:
+      - mongo
+  mongo:
+    image: open1904/mongoseabrus
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - /data/db:/data/db
+  points:
+    image: open1904/gseabra-pois
+    container_name: gseabra-pois
+    ports:
+      - 1904:1904
+    depends_on:
+      - postgis
+  postgis:
+    image: open1904/postgis
+    container_name: postgis
+    ports:
+      - 5432:5432
+    volumes:
+      - /data/pst:/data/pst
